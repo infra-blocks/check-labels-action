@@ -1,12 +1,11 @@
-name: Template action
-description: Does not do anything, it's a template
+name: Check labels action
+description: |
+  This action runs on PR events and verifies that labels are present/absent according to the provided rules.
 inputs:
-  example:
-    description: An example input
+  one-of:
+    description: |
+      A CSV list of labels regular expression. Exactly one of them must match the PR labels.
     required: true
-outputs:
-  example-output:
-    description: An example output
 runs:
-  using: "docker"
-  image: Dockerfile
+  using: "node16"
+  main: dist/index.cjs

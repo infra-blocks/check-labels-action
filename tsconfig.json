@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "declaration": true,
+    "declaration": false,
     "importHelpers": true,
     "skipLibCheck": true,
     "module": "node16",
@@ -13,6 +13,6 @@
     "incremental": true,
     "noEmit": true
   },
-  "include": [ "src/**/*", "**/.eslintrc.js", "test/**/*", "nyc.config.js" ],
+  "include": [ "src/**/*", "test/**/*", "**/.eslintrc.cjs", "webpack.config.cjs" ],
   "exclude": [ "dist/**/*" ]
 }

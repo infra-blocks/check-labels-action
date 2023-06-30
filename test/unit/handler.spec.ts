@@ -7,7 +7,7 @@ describe("handler", function () {
     it("should create handler", function () {
       const handler = createHandler({
         context,
-        config: { example: "stuff" },
+        config: { oneOf: [/toto/] },
       });
       expect(handler).to.not.be.null;
     });
