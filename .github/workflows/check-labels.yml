@@ -17,7 +17,8 @@ jobs:
   check-labels:
     runs-on: ubuntu-22.04
     steps:
-      - uses: infrastructure-blocks/check-labels-action@feature/instantiate-template
+      - uses: actions/checkout@v3
+      - uses: ./
         id: check-label
         with:
           one-of: no version, patch, minor, major
