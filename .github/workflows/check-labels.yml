@@ -1,0 +1,25 @@
+name: Check labels
+
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - labeled
+      - unlabeled
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check-labels:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: infrastructure-blocks/check-labels-action@feature/instantiate-template
+        id: check-label
+        with:
+          one-of: no version, patch, minor, major
+      - run: |
+          echo ${{ steps.check-label.outputs.matched-labels }}
