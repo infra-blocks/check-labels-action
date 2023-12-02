@@ -1,4 +1,4 @@
-name: Check labels
+name: Self test
 
 on:
   pull_request:
@@ -14,7 +14,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  check-labels:
+  self-test:
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v3

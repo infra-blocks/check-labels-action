@@ -1,0 +1,7 @@
+services:
+  action:
+    image: infra-blocks/check-labels-action
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    container_name: check-labels-action

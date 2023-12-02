@@ -11,5 +11,7 @@ outputs:
     description: |
       A CSV list of labels that have been found on the PR.
 runs:
-  using: "node16"
-  main: dist/index.cjs
+  using: "docker"
+  image: Dockerfile
+  args:
+    - ${{ inputs.one-of }}

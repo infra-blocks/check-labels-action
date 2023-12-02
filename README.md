@@ -1,7 +1,6 @@
-# github-action-typescript-template
+# check-labels-action
 
-This whole README file should be copied and edited. This template suggests a structure that should be
-respected and some sections can be use verbatim across repositories.
+GitHub Action that enforces the presence/absence of PR labels according to user provided rules.
 
 ## Usage
 
