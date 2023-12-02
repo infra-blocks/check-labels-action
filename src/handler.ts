@@ -60,7 +60,7 @@ export class CheckLabelsHandler implements Handler<CheckLabelsOutputs> {
     matched.push(...oneOfMatches);
 
     return Promise.resolve({
-      "matched-labels": JSON.stringify(matched),
+      "matched-labels": matched.join(","),
     });
   }
 

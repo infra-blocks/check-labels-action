@@ -6,6 +6,10 @@ inputs:
     description: |
       A CSV list of labels regular expression. Exactly one of them must match the PR labels.
     required: true
+outputs:
+  matched-labels:
+    description: |
+      A CSV list of labels that have been found on the PR.
 runs:
   using: "node16"
   main: dist/index.cjs
