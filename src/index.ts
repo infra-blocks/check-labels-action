@@ -10,6 +10,7 @@ import {
 import VError from "verror";
 
 async function main() {
+  core.debug(`received env: ${JSON.stringify(process.env, null, 2)}`);
   core.debug(`received context: ${JSON.stringify(context, null, 2)}`);
   const debugInputs = Object.entries(process.env).filter(([key]) =>
     key.startsWith("INPUT")
