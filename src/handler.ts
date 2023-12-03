@@ -33,7 +33,11 @@ export class CheckLabelsHandler implements Handler<CheckLabelsOutputs> {
 
   handle(): Promise<CheckLabelsOutputs> {
     core.debug(
-      `processing PR event with config: ${JSON.stringify(this.config, null, 2)}`
+      `processing PR event with config: ${JSON.stringify(
+        { oneOf: this.config.oneOf.map((regex) => regex.toString()) },
+        null,
+        2
+      )}`
     );
 
     const matched = [];

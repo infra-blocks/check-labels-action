@@ -12,11 +12,6 @@ import VError from "verror";
 async function main() {
   core.debug(`received env: ${JSON.stringify(process.env, null, 2)}`);
   core.debug(`received context: ${JSON.stringify(context, null, 2)}`);
-  const debugInputs = Object.entries(process.env).filter(([key]) =>
-    key.startsWith("INPUT")
-  );
-  core.debug(`received inputs: ${JSON.stringify(debugInputs, null, 2)}`);
-  core.debug(`receive env: ${JSON.stringify(process.env, null, 2)}`);
   checkSupportedEvent(context.eventName, [Event.PullRequest]);
   // TODO: trim in lib.
   const inputs = getInputs({
