@@ -8,13 +8,7 @@ Describe the action usage here, and provide an example invocation in a GitHub wo
 
 ## Development
 
-This project is written in Typescript and leverages `nvm` to manage its version. It also uses Git hooks
-to automatically build and commit compiled code. This last part emerges from the fact that GitHub actions
-run Javascript (and not typescript) and that all the node_modules/ are expected to be provided in the Git
-repository of the action.
-
-Having a Git hook to compile automatically helps in diminishing the chances that a developer forgets to
-provide the compiled sources in a change request.
+This project is written in Typescript and leverages `nvm` to manage its version.
 
 ### Setup
 
