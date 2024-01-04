@@ -1,14 +1,12 @@
-import { Context } from "@actions/github/lib/context.js";
 import { PullRequest } from "@infra-blocks/github";
-import { checkNotNull } from "@infra-blocks/checks";
 import * as core from "@actions/core";
 import VError from "verror";
 
 export interface Config {
   oneOf: RegExp[];
+  pullRequest: PullRequest;
 }
 
-// TODO: move into lib?
 export type Outputs = Record<string, string>;
 
 export interface Handler<O extends Outputs = Outputs> {
@@ -22,12 +20,10 @@ export interface CheckLabelsOutputs extends Outputs {
 export class CheckLabelsHandler implements Handler<CheckLabelsOutputs> {
   private static ERROR_NAME = "CheckLabelsHandlerError";
 
-  private readonly context: Context;
   private readonly config: Config;
 
-  constructor(params: { context: Context; config: Config }) {
-    const { context, config } = params;
-    this.context = context;
+  constructor(params: { config: Config }) {
+    const { config } = params;
     this.config = config;
   }
 
@@ -41,10 +37,7 @@ export class CheckLabelsHandler implements Handler<CheckLabelsOutputs> {
     );
 
     const matched = [];
-    const pullRequest = checkNotNull(
-      this.context.payload.pull_request
-    ) as PullRequest;
-    const labels = pullRequest.labels.map((label) => label.name);
+    const labels = this.config.pullRequest.labels.map((label) => label.name);
     const oneOfMatches = this.matches({
       labels,
       patterns: this.config.oneOf,
@@ -79,9 +72,6 @@ export class CheckLabelsHandler implements Handler<CheckLabelsOutputs> {
   }
 }
 
-export function createHandler(params: {
-  context: Context;
-  config: Config;
-}): Handler {
+export function createHandler(params: { config: Config }): Handler {
   return new CheckLabelsHandler(params);
 }
