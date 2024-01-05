@@ -1,27 +1,31 @@
 import * as core from "@actions/core";
 import { context } from "@actions/github";
 import { createHandler } from "./handler.js";
+import { checkNotNull } from "@infra-blocks/checks";
 import {
   arrayInput,
-  checkSupportedEvent,
-  Event,
   getInputs,
+  PullRequest,
+  stringInput,
 } from "@infra-blocks/github";
 import VError from "verror";
 
 async function main() {
   core.debug(`received env: ${JSON.stringify(process.env, null, 2)}`);
   core.debug(`received context: ${JSON.stringify(context, null, 2)}`);
-  checkSupportedEvent(context.eventName, [Event.PullRequest]);
-  // TODO: trim in lib.
   const inputs = getInputs({
-    "one-of": arrayInput({ separator: "," }),
+    "one-of": arrayInput({ separator: ",", trim: true }),
+    "pull-request": stringInput({
+      default: () => JSON.stringify(checkNotNull(context.payload.pull_request)),
+    }),
   });
-  const oneOf = inputs["one-of"].map((label) => new RegExp(label.trim()));
+  const oneOf = inputs["one-of"].map((label) => new RegExp(label));
+  const pullRequest = JSON.parse(inputs["pull-request"]) as PullRequest;
+
   const handler = createHandler({
-    context,
     config: {
       oneOf,
+      pullRequest,
     },
   });
   const outputs = await handler.handle();
