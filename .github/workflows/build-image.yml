@@ -54,6 +54,6 @@ jobs:
         id: check-label-with-pr-input
         with:
           uses: docker://public.ecr.aws/infrastructure-blocks/check-labels-action:git-sha-${{ github.sha }}
-          with: "{\"one-of\": \"no version, patch, minor, major\", \"pull-request\": ${{ toJson(steps.get-current-pr.outputs.pr) }}}"
+          with: "{\"exactly-once\": \"[\\\"^no version$\\\", \\\"^patch$\\\", \\\"^minor$\\\", \\\"^major$\\\"]\", \"pull-request\": ${{ toJson(steps.get-current-pr.outputs.pr) }}}"
       - run: |
           echo ${{ steps.check-label-with-pr-input.outputs.matched-labels }}

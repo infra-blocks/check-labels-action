@@ -1,18 +1,26 @@
 # check-labels-action
 
-GitHub Action that enforces the presence/absence of PR labels according to user provided rules.
+GitHub Action that enforces the presence/absence of PR labels according to user provided rules. All the expressions
+used to match label names are regular expressions. So if you want to match a word exactly, you should wrap it with
+`^$`. For example, `^bugfix$` instead of `bugfix`.
 
-## Instantiation checklist
+## Inputs
 
-- Replace the summary and the action usage section in this document.
-- Edit the package.json to reflect the action's name and links
-- Replace the self-test section of the [build-image workflow](.github/workflows/build-image.yml).
-- Set up code coverage
+|     Name     | Required | Description                                                                                                 |
+|:------------:|:--------:|-------------------------------------------------------------------------------------------------------------|
+|    one-of    |   true   | A JSON array containing expressions to match.<br/> Exactly one match must be found amongst the labels.      |
+| pull-request |  false   | A stringified pull request JSON object.<br> Defaults to ${{ github.event.pull_request }} when not provided. |
+
+## Ouputs
+
+|      Name      | Description                                                                  |
+|:--------------:|------------------------------------------------------------------------------|
+| matched-labels | A stringified JSON array of the label names that were matched by this action |
 
 ## Usage
 
 ```yaml
-name: Template Usage
+name: Check Labels
 
 on:
   push: ~
@@ -27,12 +35,12 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  example-job:
+  check-labels:
     runs-on: ubuntu-22.04
     steps:
-      - uses: docker://public.ecr.aws/infrastructure-blocks/docker-typescript-action-template:v1
+      - uses: docker://public.ecr.aws/infrastructure-blocks/check-labels-action:v1
         with:
-          example-input: hello
+          one-of: '["bugfix", "feature"]'
 ```
 
 ## Releasing

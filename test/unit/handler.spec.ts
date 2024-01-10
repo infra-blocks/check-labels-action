@@ -3,15 +3,18 @@ import { handler } from "../../src/handler.js";
 
 describe("handler", function () {
   describe(handler.name, function () {
-    describe("one-of", function () {
+    describe("exactly-once", function () {
       it("should work with a label matching", async function () {
         const pullRequest = JSON.stringify({
-          labels: [{ name: "toto" }],
+          labels: [{ name: "big-toto" }],
         });
         expect(
-          await handler({ "one-of": ["toto"], "pull-request": pullRequest }),
+          await handler({
+            "exactly-once": JSON.stringify(["toto"]),
+            "pull-request": pullRequest,
+          }),
         ).to.deep.equal({
-          "matched-labels": "toto",
+          "matched-labels": JSON.stringify(["big-toto"]),
         });
       });
       it("should throw if it cannot find a match", async function () {
@@ -19,7 +22,10 @@ describe("handler", function () {
           labels: [{ name: "toto" }],
         });
         await expect(
-          handler({ "one-of": ["tata"], "pull-request": pullRequest }),
+          handler({
+            "exactly-once": JSON.stringify(["tata"]),
+            "pull-request": pullRequest,
+          }),
         ).to.be.rejected;
       });
     });
