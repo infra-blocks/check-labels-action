@@ -2,7 +2,6 @@ name: Build
 
 on:
   push:
-    # This turns off running for tags. Tags are being pushed by the CI upon merges (possibly).
     branches:
       - "**"
 
@@ -21,6 +20,7 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run compile
+      - run: npm run build
       - run: npm run lint
       - run: npm run test:coverage:lcov
       - uses: codecov/codecov-action@v3
