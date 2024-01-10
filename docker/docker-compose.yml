@@ -1,0 +1,9 @@
+services:
+  action:
+    image: public.ecr.aws/infrastructure-blocks/docker-typescript-action-template:latest
+    build:
+      context: ../
+      dockerfile: docker/action/Dockerfile
+      args:
+        NODE_VERSION: ${NODE_VERSION:?must be provided}
+    container_name: docker-typescript-action-template

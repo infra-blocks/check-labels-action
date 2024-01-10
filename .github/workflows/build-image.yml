@@ -1,0 +1,55 @@
+name: Build Image
+
+on:
+  push:
+    branches:
+      - "**"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-image:
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - id: node-version
+        run: |
+          echo "node-version=$(cat .nvmrc)" >> "${GITHUB_OUTPUT}"
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ vars.AWS_ROLE }}
+          aws-region: ${{ vars.AWS_REGION }}
+      - name: Login to Amazon ECR Public
+        id: login-ecr-public
+        uses: aws-actions/amazon-ecr-login@v2
+        with:
+          registry-type: public
+      - name: Build, tag and publish docker image
+        id: docker-publish
+        uses: infrastructure-blocks/docker-publish-action@v1
+        env:
+          NODE_VERSION: ${{ steps.node-version.outputs.node-version }}
+        with:
+          service: action
+          tags: '["git-sha-${{ github.sha }}"]'
+      - name: Show published images
+        run: |
+          echo "${{ steps.docker-publish.outputs.published }}"
+  self-test:
+    runs-on: ubuntu-22.04
+    needs:
+      - build-image
+    steps:
+      - uses: jenseng/dynamic-uses@v1
+        id: self-test
+        with:
+          uses: docker://public.ecr.aws/infrastructure-blocks/docker-typescript-action-template:git-sha-${{ github.sha }}
+          with: '{"example-input": "hello"}'
+      - name: Show outputs
+        run: |
+          echo "Example output: ${{ fromJson(steps.self-test.outputs.outputs).example-output }}"

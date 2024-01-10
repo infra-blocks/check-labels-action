@@ -1,0 +1,59 @@
+name: Git Tag Release From Semver Label
+
+on:
+  workflow_run:
+    types:
+      - completed
+    workflows:
+      - Build Image
+    branches:
+      - master
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  check-build-success:
+    runs-on: ubuntu-22.04
+    steps:
+      - run: |
+          if test "${{ github.event.workflow_run.conclusion }}" != "success"; then
+            echo "::error::build did not succeed"
+            exit 1          
+          fi
+  get-merging-pr:
+    runs-on: ubuntu-22.04
+    needs:
+      - check-build-success
+    permissions:
+      pull-requests: read
+    outputs:
+      pull-request: ${{ steps.get-current-pr.outputs.pr }}
+    steps:
+      - id: get-current-pr
+        uses: 8BitJonny/gh-get-current-pr@2.2.0
+      - if: ${{ steps.get-current-pr.outputs.pr_found == 'false' }}
+        run: |
+          echo "::error::no matching PR found!"
+          exit 1
+  check-has-semver-label:
+    needs:
+      - get-merging-pr
+    permissions:
+      pull-requests: write
+    uses: infrastructure-blocks/check-has-semver-label-workflow/.github/workflows/check-has-semver-label.yml@v1
+    with:
+      pull-request: ${{ needs.get-merging-pr.outputs.pull-request }}
+  git-tag-semver:
+    needs:
+      - check-has-semver-label
+    if: ${{ needs.check-has-semver-label.outputs.matched-label != 'no version' }}
+    permissions:
+      contents: write
+      pull-requests: write
+    uses: infrastructure-blocks/git-tag-semver-workflow/.github/workflows/git-tag-semver.yml@v1
+    with:
+      version: ${{ needs.check-has-semver-label.outputs.matched-label }}
+    secrets:
+      github-token: ${{ secrets.PAT }}
