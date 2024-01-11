@@ -1,12 +1,7 @@
-import { checkNotNull } from "@infra-blocks/checks";
-import { runActionHandler, stringInput } from "@infra-blocks/github";
+import { getInputs, runActionHandler } from "@infra-blocks/github-actions";
 import { handler } from "./handler.js";
-import { context } from "@actions/github";
+import { parseInputs } from "./inputs.js";
 
-// TODO: jsonArrayInput() or integrate zod with inputs instead.
-runActionHandler(handler, {
-  "exactly-once": stringInput(),
-  "pull-request": stringInput({
-    default: () => JSON.stringify(checkNotNull(context.payload.pull_request)),
-  }),
+runActionHandler(() => {
+  return handler(parseInputs(getInputs("exactly-once", "pull-request")));
 });
