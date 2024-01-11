@@ -1,24 +1,20 @@
-import { Outputs, PullRequest } from "@infra-blocks/github";
-import VError from "verror";
+import { CheckLabelsActionError } from "./error.js";
+import { PullRequest } from "./types.js";
 
-export interface Inputs {
-  "exactly-once": string;
-  "pull-request": string;
-}
-
-export interface CheckLabelsOutputs extends Outputs {
+export interface CheckLabelsOutputs {
   ["matched-labels"]: string;
 }
 
 export class CheckLabelsHandler {
-  private static ERROR_NAME = "CheckLabelsHandlerError";
-
-  private readonly oneOf: RegExp[];
+  private readonly exactlyOnce: RegExp[];
   private readonly pullRequest: PullRequest;
 
-  private constructor(params: { oneOf: RegExp[]; pullRequest: PullRequest }) {
-    const { oneOf, pullRequest } = params;
-    this.oneOf = oneOf;
+  private constructor(params: {
+    exactlyOnce: RegExp[];
+    pullRequest: PullRequest;
+  }) {
+    const { exactlyOnce, pullRequest } = params;
+    this.exactlyOnce = exactlyOnce;
     this.pullRequest = pullRequest;
   }
 
@@ -27,14 +23,14 @@ export class CheckLabelsHandler {
     const labels = this.pullRequest.labels.map((label) => label.name);
     const oneOfMatches = this.matches({
       labels,
-      patterns: this.oneOf,
+      patterns: this.exactlyOnce,
     });
 
     if (oneOfMatches.length !== 1) {
-      throw new VError(
-        { name: CheckLabelsHandler.ERROR_NAME },
+      throw new CheckLabelsActionError(
+        {},
         `expected to find exactly one match of ${JSON.stringify(
-          this.oneOf.map((pattern) => pattern.source),
+          this.exactlyOnce.map((pattern) => pattern.source),
         )} but found ${oneOfMatches.length} in PR labels ${JSON.stringify(
           labels,
         )}`,
@@ -58,21 +54,15 @@ export class CheckLabelsHandler {
     return matches;
   }
 
-  static create(params: { oneOf: RegExp[]; pullRequest: PullRequest }) {
+  static create(params: { exactlyOnce: RegExp[]; pullRequest: PullRequest }) {
     return new CheckLabelsHandler(params);
   }
 }
 
-export async function handler(inputs: Inputs) {
-  const oneOfParsed = JSON.parse(inputs["exactly-once"]) as object;
-
-  if (!Array.isArray(oneOfParsed)) {
-    throw new Error(`expected a JSON array but got ${inputs["exactly-once"]}`);
-  }
-
-  const oneOf = oneOfParsed.map((expression: string) => new RegExp(expression));
-  const pullRequest = JSON.parse(inputs["pull-request"]) as PullRequest;
-
-  const handler = CheckLabelsHandler.create({ oneOf, pullRequest });
+export async function handler(params: {
+  exactlyOnce: RegExp[];
+  pullRequest: PullRequest;
+}) {
+  const handler = CheckLabelsHandler.create(params);
   return handler.handle();
 }

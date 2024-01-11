@@ -1,13 +1,13 @@
 {
-  "name": "@infra-blocks/docker-typescript-action-template",
+  "name": "@infra-blocks/check-labels-action",
   "version": "0.0.0",
-  "homepage": "https://github.com/infrastructure-blocks/docker-typescript-action-template#readme",
+  "homepage": "https://github.com/infrastructure-blocks/check-labels-action#readme",
   "bugs": {
-    "url": "https://github.com/infrastructure-blocks/docker-typescript-action-template/issues"
+    "url": "https://github.com/infrastructure-blocks/check-labels-action/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/infrastructure-blocks/docker-typescript-action-template.git"
+    "url": "git+https://github.com/infrastructure-blocks/check-labels-action.git"
   },
   "license": "ISC",
   "author": "PhilLavoie",
@@ -27,8 +27,9 @@
     "@actions/core": "^1.10.1",
     "@actions/github": "^6.0.0",
     "@infra-blocks/checks": "^0.1.9",
-    "@infra-blocks/github": "^0.11.0",
-    "verror": "^1.10.1"
+    "@infra-blocks/github-actions": "^0.1.0",
+    "verror": "^1.10.1",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "@infra-blocks/test": "^0.3.0",
