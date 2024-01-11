@@ -8,7 +8,7 @@ used to match label names are regular expressions. So if you want to match a wor
 
 |     Name     | Required | Description                                                                                                 |
 |:------------:|:--------:|-------------------------------------------------------------------------------------------------------------|
-|    one-of    |   true   | A JSON array containing expressions to match.<br/> Exactly one match must be found amongst the labels.      |
+| exactly-once |   true   | A JSON array containing expressions to match.<br/> Exactly one match must be found amongst the labels.      |
 | pull-request |  false   | A stringified pull request JSON object.<br> Defaults to ${{ github.event.pull_request }} when not provided. |
 
 ## Ouputs
@@ -38,9 +38,9 @@ jobs:
   check-labels:
     runs-on: ubuntu-22.04
     steps:
-      - uses: docker://public.ecr.aws/infrastructure-blocks/check-labels-action:v1
+      - uses: docker://public.ecr.aws/infrastructure-blocks/check-labels-action:v2
         with:
-          one-of: '["bugfix", "feature"]'
+          exactly-once: '["bugfix", "feature"]'
 ```
 
 ## Releasing
