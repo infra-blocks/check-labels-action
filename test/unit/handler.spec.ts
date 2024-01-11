@@ -1,14 +1,33 @@
-import { createHandler } from "../../src/handler.js";
-import { expect, fake } from "@infra-blocks/test";
-import { PullRequest } from "@infra-blocks/github";
+import { expect } from "@infra-blocks/test";
+import { handler } from "../../src/handler.js";
 
 describe("handler", function () {
-  describe(createHandler.name, function () {
-    it("should create handler", function () {
-      const handler = createHandler({
-        config: { oneOf: [/toto/], pullRequest: fake<PullRequest>() },
+  describe(handler.name, function () {
+    describe("exactly-once", function () {
+      it("should work with a label matching", async function () {
+        const pullRequest = JSON.stringify({
+          labels: [{ name: "big-toto" }],
+        });
+        expect(
+          await handler({
+            "exactly-once": JSON.stringify(["toto"]),
+            "pull-request": pullRequest,
+          }),
+        ).to.deep.equal({
+          "matched-labels": JSON.stringify(["big-toto"]),
+        });
       });
-      expect(handler).to.not.be.null;
+      it("should throw if it cannot find a match", async function () {
+        const pullRequest = JSON.stringify({
+          labels: [{ name: "toto" }],
+        });
+        await expect(
+          handler({
+            "exactly-once": JSON.stringify(["tata"]),
+            "pull-request": pullRequest,
+          }),
+        ).to.be.rejected;
+      });
     });
   });
 });
