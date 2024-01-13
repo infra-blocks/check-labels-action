@@ -6,6 +6,7 @@ used to match label names are regular expressions. So if you want to match a wor
 
 ## Inputs
 
+<<<<<<< HEAD
 |     Name     | Required | Description                                                                                                 |
 |:------------:|:--------:|-------------------------------------------------------------------------------------------------------------|
 | exactly-once |   true   | A JSON array containing expressions to match.<br/> Exactly one match must be found amongst the labels.      |
@@ -16,10 +17,33 @@ used to match label names are regular expressions. So if you want to match a wor
 |      Name      | Description                                                                  |
 |:--------------:|------------------------------------------------------------------------------|
 | matched-labels | A stringified JSON array of the label names that were matched by this action |
+=======
+- Remove the [trigger update from template workflow](.github/workflows/trigger-update-from-template.yml)
+- Rename the docker image/container in [docker compose file](./docker/docker-compose.yml)
+- Edit the package.json to reflect the action's name and links
+- Run `nvm install`
+- Run `npm install`
+- Replace the self-test section of the [build-image workflow](.github/workflows/build-image.yml).
+- Set up code coverage
+- Replace the summary and the action usage section in this document.
+
+## Inputs
+
+|    Name       | Required | Description      |
+|:-------------:|:--------:|------------------|
+| example-input |  true    | A useless input. |
+
+## Outputs
+
+|     Name       | Description                    |
+|:--------------:|--------------------------------|
+| example-output | An equivalently useless output |
+>>>>>>> template/master
 
 ## Usage
 
 ```yaml
+<<<<<<< HEAD
 name: Check Labels
 
 on:
@@ -41,6 +65,11 @@ jobs:
       - uses: docker://public.ecr.aws/infrastructure-blocks/check-labels-action:v2
         with:
           exactly-once: '["bugfix", "feature"]'
+=======
+- uses: docker://public.ecr.aws/infrastructure-blocks/docker-typescript-action-template:v1
+  with:
+    example-input: hello
+>>>>>>> template/master
 ```
 
 ## Releasing
