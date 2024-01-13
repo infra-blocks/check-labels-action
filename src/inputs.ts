@@ -2,19 +2,9 @@ import { context } from "@actions/github";
 import { checkNotNull } from "@infra-blocks/checks";
 import { z } from "zod";
 import { CheckLabelsActionError } from "./error.js";
-import { PullRequest } from "./types.js";
+import { HandlerParams, Inputs } from "./types.js";
 
-export interface Inputs {
-  "exactly-once"?: string;
-  "pull-request"?: string;
-}
-
-export interface ParsedInputs {
-  exactlyOnce: RegExp[];
-  pullRequest: PullRequest;
-}
-
-export function parseInputs(inputs: Inputs): ParsedInputs {
+export function parseInputs(inputs: Inputs): HandlerParams {
   try {
     return z
       .object({
