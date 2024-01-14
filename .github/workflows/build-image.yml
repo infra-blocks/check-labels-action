@@ -51,9 +51,10 @@ jobs:
         with:
           sha: ${{ github.event.pull_request.head.sha }}
       - uses: jenseng/dynamic-uses@v1
-        id: check-label-with-pr-input
+        id: self-test
         with:
-          uses: docker://public.ecr.aws/infrastructure-blocks/check-labels-action:git-sha-${{ github.sha }}
+          uses: docker://public.ecr.aws/${{ github.repository }}:git-sha-${{ github.sha }}
           with: "{\"exactly-once\": \"[\\\"^no version$\\\", \\\"^patch$\\\", \\\"^minor$\\\", \\\"^major$\\\"]\", \"pull-request\": ${{ toJson(steps.get-current-pr.outputs.pr) }}}"
-      - run: |
-          echo ${{ steps.check-label-with-pr-input.outputs.matched-labels }}
+      - name: Show outputs
+        run: |
+          printf ${{ toJson(steps.self-test.outputs.outputs) }} | jq
