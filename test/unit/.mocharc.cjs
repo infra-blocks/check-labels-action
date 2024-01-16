@@ -3,4 +3,6 @@ const { pathToFileURL } = require("node:url");
 
 register("ts-node/esm", pathToFileURL("./"));
 
-module.exports = {};
+module.exports = {
+  require: [`${__dirname}/clean-env.ts`],
+};
