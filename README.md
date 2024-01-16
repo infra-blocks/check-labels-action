@@ -17,30 +17,16 @@ used to match label names are regular expressions. So if you want to match a wor
 |:--------------:|------------------------------------------------------------------------------|
 | matched-labels | A stringified JSON array of the label names that were matched by this action |
 
+## Permissions
+
+N/A
+
 ## Usage
 
 ```yaml
-name: Check Labels
-
-on:
-  push: ~
-
-# The required permissions.
-permissions:
-  pull-requests: read
-
-# The suggested concurrency controls.
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
-
-jobs:
-  check-labels:
-    runs-on: ubuntu-22.04
-    steps:
-      - uses: docker://public.ecr.aws/infrastructure-blocks/check-labels-action:v2
-        with:
-          exactly-once: '["bugfix", "feature"]'
+- uses: docker://public.ecr.aws/infrastructure-blocks/check-labels-action:v2
+  with:
+    exactly-once: '["bugfix", "feature"]'
 ```
 
 ## Releasing
