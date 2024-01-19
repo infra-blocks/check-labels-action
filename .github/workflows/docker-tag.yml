@@ -9,7 +9,7 @@ jobs:
   docker-compose-metadata:
     permissions:
       contents: read
-    uses: infrastructure-blocks/docker-compose-metadata-workflow/.github/workflows/workflow.yml@v1
+    uses: infrastructure-blocks/docker-compose-metadata-workflow/.github/workflows/workflow.yml@v2
   docker-image-parts:
     runs-on: ubuntu-22.04
     needs:
@@ -26,7 +26,7 @@ jobs:
       id-token: write
     needs:
       - docker-image-parts
-    uses: infrastructure-blocks/aws-ecr-docker-tag-workflow/.github/workflows/workflow.yml@v1
+    uses: infrastructure-blocks/aws-ecr-docker-tag-workflow/.github/workflows/workflow.yml@v2
     with:
       aws-role: ${{ vars.AWS_ROLE }}
       aws-region: ${{ vars.AWS_REGION }}
