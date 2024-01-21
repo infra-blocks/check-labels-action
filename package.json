@@ -27,7 +27,7 @@
     "@actions/core": "^1.10.1",
     "@actions/github": "^6.0.0",
     "@infra-blocks/checks": "^0.1.9",
-    "@infra-blocks/github-actions": "^0.2.0",
+    "@infra-blocks/github-actions": "^0.2.1",
     "verror": "^1.10.1",
     "zod": "^3.22.4"
   },

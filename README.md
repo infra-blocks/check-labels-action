@@ -26,7 +26,7 @@ N/A
 ```yaml
 - uses: docker://public.ecr.aws/infrastructure-blocks/check-labels-action:v2
   with:
-    exactly-once: '["bugfix", "feature"]'
+    exactly-once: '["^bugfix$", "^feature$"]'
 ```
 
 ## Releasing
