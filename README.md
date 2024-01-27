@@ -1,8 +1,8 @@
 # check-labels-action
 
 GitHub Action that enforces the presence/absence of PR labels according to user provided rules. All the expressions
-used to match label names are regular expressions. So if you want to match a word exactly, you should wrap it with
-`^$`. For example, `^bugfix$` instead of `bugfix`.
+used to match label names are in JS regular expression syntax. So if you want to match a word exactly,
+you should wrap it with `^$`. For example, `^bugfix$` instead of `bugfix`.
 
 ## Inputs
 
