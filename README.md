@@ -3,6 +3,7 @@
 [![Docker Tag](https://github.com/infrastructure-blocks/check-labels-action/actions/workflows/docker-tag.yml/badge.svg)](https://github.com/infrastructure-blocks/check-labels-action/actions/workflows/docker-tag.yml)
 [![Git Tag Semver From Label](https://github.com/infrastructure-blocks/check-labels-action/actions/workflows/git-tag-semver-from-label.yml/badge.svg)](https://github.com/infrastructure-blocks/check-labels-action/actions/workflows/git-tag-semver-from-label.yml)
 [![Update From Template](https://github.com/infrastructure-blocks/check-labels-action/actions/workflows/update-from-template.yml/badge.svg)](https://github.com/infrastructure-blocks/check-labels-action/actions/workflows/update-from-template.yml)
+[![codecov](https://codecov.io/gh/infrastructure-blocks/check-labels-action/graph/badge.svg?token=9K3NAHOSNI)](https://codecov.io/gh/infrastructure-blocks/check-labels-action)
 
 GitHub Action that enforces the presence/absence of PR labels according to user provided rules. All the expressions
 used to match label names are in JS regular expression syntax. So if you want to match a word exactly,
