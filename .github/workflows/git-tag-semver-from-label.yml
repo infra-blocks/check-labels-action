@@ -1,4 +1,4 @@
-name: Git Tag Release From Semver Label
+name: Git Tag Semver From Label
 
 on:
   workflow_run:
