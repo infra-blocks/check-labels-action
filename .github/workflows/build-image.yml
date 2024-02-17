@@ -46,15 +46,13 @@ jobs:
       - build-image
     steps:
       - uses: actions/checkout@v4
-      - uses: 8BitJonny/gh-get-current-pr@2.2.0
+      - uses: infrastructure-blocks/get-current-pull-request-action@v1
         id: get-current-pr
-        with:
-          sha: ${{ github.event.pull_request.head.sha }}
       - uses: jenseng/dynamic-uses@v1
         id: self-test
         with:
           uses: docker://public.ecr.aws/infrastructure-blocks/check-labels-action:git-sha-${{ github.sha }}
-          with: "{\"exactly-once\": \"[\\\"^no version$\\\", \\\"^patch$\\\", \\\"^minor$\\\", \\\"^major$\\\"]\", \"pull-request\": ${{ toJson(steps.get-current-pr.outputs.pr) }}}"
+          with: "{\"exactly-once\": \"[\\\"^no version$\\\", \\\"^patch$\\\", \\\"^minor$\\\", \\\"^major$\\\"]\", \"pull-request\": ${{ toJson(steps.get-current-pr.outputs.json) }}}"
       - name: Show outputs
         run: |
           # To respect nested stringified objects, we need to properly escape quotes.
