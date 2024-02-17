@@ -52,8 +52,9 @@ jobs:
         id: self-test
         with:
           uses: docker://public.ecr.aws/infrastructure-blocks/check-labels-action:git-sha-${{ github.sha }}
-          with: "{\"exactly-once\": \"[\\\"^no version$\\\", \\\"^patch$\\\", \\\"^minor$\\\", \\\"^major$\\\"]\", \"pull-request\": ${{ toJson(steps.get-current-pr.outputs.json) }}}"
+          with: "{\"exactly-once\": \"[\\\"^no version$\\\", \\\"^patch$\\\", \\\"^minor$\\\", \\\"^major$\\\"]\", \"issue\": ${{ toJson(steps.get-current-pr.outputs.json) }}}"
       - name: Show outputs
+        env:
+          OUTPUTS: ${{ toJson(steps.self-test.outputs) }}
         run: |
-          # To respect nested stringified objects, we need to properly escape quotes.
-          echo -e ${{ toJson(steps.self-test.outputs.outputs) }}
+          echo "${OUTPUTS}"

@@ -4,7 +4,7 @@ import { parseInputs } from "../../src/inputs.js";
 describe("inputs", function () {
   describe(parseInputs.name, function () {
     describe("exactly-once", function () {
-      const pullRequest = JSON.stringify({
+      const issue = JSON.stringify({
         labels: [{ name: "toto" }],
       });
 
@@ -13,11 +13,11 @@ describe("inputs", function () {
         expect(
           parseInputs({
             "exactly-once": exactlyOnce,
-            "pull-request": pullRequest,
+            issue,
           }),
         ).to.deep.equal({
           exactlyOnce: [new RegExp("expression"), new RegExp("isme")],
-          pullRequest: {
+          issue: {
             labels: [{ name: "toto" }],
           },
         });
@@ -32,44 +32,44 @@ describe("inputs", function () {
         expect(() =>
           parseInputs({
             "exactly-once": exactlyOnce,
-            "pull-request": pullRequest,
+            issue,
           }),
         ).to.throw();
       });
       it("should throw if input is missing", function () {
-        expect(() => parseInputs({ "pull-request": pullRequest })).to.throw();
+        expect(() => parseInputs({ issue })).to.throw();
       });
     });
 
-    describe("pull-request", function () {
+    describe("issue", function () {
       const exactlyOnce = JSON.stringify(["expression", "isme"]);
 
       it("should work for a valid JSON object", function () {
-        const pullRequest = JSON.stringify({
+        const issue = JSON.stringify({
           labels: [{ name: "toto" }],
         });
 
         expect(
           parseInputs({
             "exactly-once": exactlyOnce,
-            "pull-request": pullRequest,
+            issue,
           }),
         ).to.deep.equal({
           exactlyOnce: [new RegExp("expression"), new RegExp("isme")],
-          pullRequest: {
+          issue: {
             labels: [{ name: "toto" }],
           },
         });
       });
-      it("should throw if pull-request has no labels", function () {
-        const pullRequest = JSON.stringify({
+      it("should throw if issue has no labels", function () {
+        const issue = JSON.stringify({
           labelz: [{ name: "toto" }],
         });
 
         expect(() =>
           parseInputs({
             "exactly-once": exactlyOnce,
-            "pull-request": pullRequest,
+            issue,
           }),
         ).to.throw();
       });

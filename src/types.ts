@@ -1,19 +1,22 @@
 export interface Inputs {
   "exactly-once"?: string;
-  "pull-request"?: string;
+  issue?: string;
 }
 
 export interface Label {
   name: string;
 }
 
-export interface PullRequest {
+/**
+ * The only fields we are interested in, in the context of this action.
+ */
+export interface Issue {
   labels: Label[];
 }
 
 export interface HandlerParams {
   exactlyOnce: RegExp[];
-  pullRequest: PullRequest;
+  issue: Issue;
 }
 
 export interface HandlerOutputs {

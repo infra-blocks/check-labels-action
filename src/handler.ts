@@ -1,22 +1,19 @@
 import { CheckLabelsActionError } from "./error.js";
-import { HandlerOutputs, HandlerParams, PullRequest } from "./types.js";
+import { HandlerOutputs, HandlerParams, Issue } from "./types.js";
 
 export class CheckLabelsHandler {
   private readonly exactlyOnce: RegExp[];
-  private readonly pullRequest: PullRequest;
+  private readonly issue: Issue;
 
-  private constructor(params: {
-    exactlyOnce: RegExp[];
-    pullRequest: PullRequest;
-  }) {
-    const { exactlyOnce, pullRequest } = params;
+  private constructor(params: { exactlyOnce: RegExp[]; issue: Issue }) {
+    const { exactlyOnce, issue } = params;
     this.exactlyOnce = exactlyOnce;
-    this.pullRequest = pullRequest;
+    this.issue = issue;
   }
 
   handle(): Promise<HandlerOutputs> {
     const matched = [];
-    const labels = this.pullRequest.labels.map((label) => label.name);
+    const labels = this.issue.labels.map((label) => label.name);
     const oneOfMatches = this.matches({
       labels,
       patterns: this.exactlyOnce,
@@ -50,7 +47,7 @@ export class CheckLabelsHandler {
     return matches;
   }
 
-  static create(params: { exactlyOnce: RegExp[]; pullRequest: PullRequest }) {
+  static create(params: { exactlyOnce: RegExp[]; issue: Issue }) {
     return new CheckLabelsHandler(params);
   }
 }

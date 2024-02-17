@@ -9,7 +9,7 @@ export function parseInputs(inputs: Inputs): HandlerParams {
     return z
       .object({
         "exactly-once": z.string(),
-        "pull-request": z
+        issue: z
           .string()
           .default(() =>
             JSON.stringify(checkNotNull(context.payload.pull_request)),
@@ -17,12 +17,12 @@ export function parseInputs(inputs: Inputs): HandlerParams {
       })
       .transform((parsed) => ({
         exactlyOnceJson: JSON.parse(parsed["exactly-once"]) as unknown,
-        pullRequestJson: JSON.parse(parsed["pull-request"]) as unknown,
+        issueJson: JSON.parse(parsed["issue"]) as unknown,
       }))
       .pipe(
         z.object({
           exactlyOnceJson: z.string().array(),
-          pullRequestJson: z.object({
+          issueJson: z.object({
             labels: z
               .object({
                 name: z.string(),
@@ -31,9 +31,9 @@ export function parseInputs(inputs: Inputs): HandlerParams {
           }),
         }),
       )
-      .transform(({ exactlyOnceJson, pullRequestJson }) => ({
+      .transform(({ exactlyOnceJson, issueJson }) => ({
         exactlyOnce: exactlyOnceJson.map((exp) => new RegExp(exp)),
-        pullRequest: pullRequestJson,
+        issue: issueJson,
       }))
       .parse(inputs);
   } catch (err) {

@@ -8,7 +8,7 @@ describe("handler", function () {
         expect(
           await handler({
             exactlyOnce: [new RegExp("toto")],
-            pullRequest: {
+            issue: {
               labels: [{ name: "big-toto" }],
             },
           }),
@@ -20,7 +20,7 @@ describe("handler", function () {
         await expect(
           handler({
             exactlyOnce: [new RegExp("tata")],
-            pullRequest: {
+            issue: {
               labels: [{ name: "toto" }],
             },
           }),
