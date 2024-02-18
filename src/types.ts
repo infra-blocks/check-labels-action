@@ -15,10 +15,10 @@ export interface Issue {
 }
 
 export interface HandlerParams {
-  exactlyOnce: RegExp[];
+  exactlyOnce: string[];
   issue: Issue;
 }
 
 export interface HandlerOutputs {
-  ["matched-labels"]: string;
+  ["matched-labels"]: Array<string>;
 }
