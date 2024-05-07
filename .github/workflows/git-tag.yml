@@ -1,4 +1,4 @@
-name: Git Tag Semver From Label
+name: Git Tag
 
 on:
   workflow_run:
