@@ -1,6 +1,6 @@
 services:
   action:
-    image: public.ecr.aws/infrastructure-blocks/check-labels-action:latest
+    image: public.ecr.aws/infra-blocks/check-labels-action:latest
     build:
       context: ../
       dockerfile: docker/action/Dockerfile

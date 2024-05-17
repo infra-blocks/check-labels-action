@@ -11,7 +11,7 @@ concurrency:
 
 jobs:
   build:
-    uses: infrastructure-blocks/typescript-build-workflow/.github/workflows/workflow.yml@v1
+    uses: infra-blocks/typescript-build-workflow/.github/workflows/workflow.yml@v1
     with:
       node-version-file: .nvmrc
     secrets:
@@ -37,7 +37,7 @@ jobs:
           registry-type: public
       - name: Build, tag and publish docker image
         id: docker-publish
-        uses: infrastructure-blocks/docker-publish-action@v1
+        uses: infra-blocks/docker-publish-action@v1
         with:
           service: action
           build-arguments:
@@ -52,12 +52,12 @@ jobs:
       - build-image
     steps:
       - uses: actions/checkout@v4
-      - uses: infrastructure-blocks/get-current-pull-request-action@v1
+      - uses: infra-blocks/get-current-pull-request-action@v1
         id: get-current-pr
       - uses: jenseng/dynamic-uses@v1
         id: self-test
         with:
-          uses: docker://public.ecr.aws/infrastructure-blocks/check-labels-action:git-sha-${{ github.sha }}
+          uses: docker://public.ecr.aws/infra-blocks/check-labels-action:git-sha-${{ github.sha }}
           with: "{\"exactly-once\": \"[\\\"^no version$\\\", \\\"^patch$\\\", \\\"^minor$\\\", \\\"^major$\\\"]\", \"pull-request\": ${{ toJson(steps.get-current-pr.outputs.json) }}}"
       - name: Show outputs
         run: |
