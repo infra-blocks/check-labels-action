@@ -1,13 +1,13 @@
 {
   "name": "@infra-blocks/check-labels-action",
   "version": "0.0.0",
-  "homepage": "https://github.com/infrastructure-blocks/check-labels-action#readme",
+  "homepage": "https://github.com/infra-blocks/check-labels-action#readme",
   "bugs": {
-    "url": "https://github.com/infrastructure-blocks/check-labels-action/issues"
+    "url": "https://github.com/infra-blocks/check-labels-action/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/infrastructure-blocks/check-labels-action.git"
+    "url": "git+https://github.com/infra-blocks/check-labels-action.git"
   },
   "license": "ISC",
   "author": "PhilLavoie",
