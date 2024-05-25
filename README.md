@@ -1,7 +1,6 @@
 # check-labels-action
 [![Build](https://github.com/infra-blocks/check-labels-action/actions/workflows/build.yml/badge.svg)](https://github.com/infra-blocks/check-labels-action/actions/workflows/build.yml)
 [![Release](https://github.com/infra-blocks/check-labels-action/actions/workflows/release.yml/badge.svg)](https://github.com/infra-blocks/check-labels-action/actions/workflows/release.yml)
-[![Git Tag](https://github.com/infra-blocks/check-labels-action/actions/workflows/git-tag.yml/badge.svg)](https://github.com/infra-blocks/check-labels-action/actions/workflows/git-tag.yml)
 [![Update From Template](https://github.com/infra-blocks/check-labels-action/actions/workflows/update-from-template.yml/badge.svg)](https://github.com/infra-blocks/check-labels-action/actions/workflows/update-from-template.yml)
 [![codecov](https://codecov.io/gh/infra-blocks/check-labels-action/graph/badge.svg?token=68361SJ2MV)](https://codecov.io/gh/infra-blocks/check-labels-action)
 
